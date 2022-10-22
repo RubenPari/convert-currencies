@@ -4,23 +4,17 @@ import controllers.toGBP
 import controllers.toJPY
 import controllers.toUSD
 import io.javalin.Javalin
+import io.javalin.apibuilder.ApiBuilder.get
+import io.javalin.apibuilder.ApiBuilder.path
 
 fun setRoutes(app: Javalin): Javalin {
-    // USA dollar
-    app.get("/EUR/toUSD") { ctx ->
-        toUSD(ctx)
+    app.routes {
+        path("EUR") {
+            get("toUSD", ::toUSD)
+            get("toGBP", ::toGBP)
+            get("toJPY", ::toJPY)
+        }
     }
-
-    // japanese Yen
-    app.get("/EUR/toJPY") { ctx ->
-        toJPY(ctx)
-    }
-
-    // UK pound
-    app.get("/EUR/toGBP") { ctx ->
-        toGBP(ctx)
-    }
-
     return app
 }
 
